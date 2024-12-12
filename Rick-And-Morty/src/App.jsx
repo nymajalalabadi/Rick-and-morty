@@ -3,14 +3,18 @@ import { allCharacters } from "../data/data";
 import "./App.css";
 import CharacterDetail from "./components/CharacterDetail";
 import CharacterList from "./components/CharacterList";
-import Navbar from "./components/Navbar";
+import Navbar, { SearchResult } from "./components/Navbar";
 
 function App(){
   const [characters, setCharacters] = useState(allCharacters);
 
   return (
     <div className="App">
-      <Navbar numOfResult={characters.length}/>
+      <Navbar>
+      <div className="navbar__result">
+        <SearchResult numOfResult={characters.length} />
+      </div>
+      </Navbar>
       <Main>
       <CharacterList Characters={characters}/>
       <CharacterDetail />
