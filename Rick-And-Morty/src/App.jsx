@@ -11,11 +11,21 @@ function App(){
   return (
     <div className="App">
       <Navbar numOfResult={characters.length}/>
-      <div className="main">
-        <CharacterList Characters={characters}/>
-        <CharacterDetail />
-      </div>
+      <Main>
+      <CharacterList Characters={characters}/>
+      <CharacterDetail />
+      </Main>
     </div>)
 }
 
 export default App;
+
+
+function Main({children})
+{
+  return (
+    <div className="main">
+        {children}
+    </div>
+  )
+}
