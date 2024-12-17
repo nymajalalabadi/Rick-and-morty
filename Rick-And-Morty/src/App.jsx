@@ -7,19 +7,25 @@ import Navbar, { SearchResult } from "./components/Navbar";
 
 function App(){
   const [characters, setCharacters] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(() => {
-  //   async function fetchData(){
-  //   fetch("https://rickandmortyapi.com/api/character").then((r) => r.json()).then((data) => setCharacters(data.results.slice(0, 6)))
-  //   }
-  //   fetchData()
+  // setIsLoading(true);
+  // fetch("https://rickandmortyapi.com/api/character")
+  // .then((r) => r.json())
+  // .then((data) => {
+  // setCharacters(data.results.slice(0, 6)),
+  // setIsLoading(false)
+  // });
   // }, [])
 
   useEffect(() => {
     async function fetchData(){
+    setIsLoading(true);
     const reslut = await fetch("https://rickandmortyapi.com/api/character");
     const data = await reslut.json();
     setCharacters(data.results.slice(0, 6));
+    setIsLoading(false);
     }
     fetchData()
   }, [])
@@ -32,7 +38,7 @@ function App(){
       </div>
       </Navbar>
       <Main>
-      <CharacterList Characters={characters}/>
+      <CharacterList Characters={characters} isLoading={isLoading}/>
       <CharacterDetail />
       </Main>
     </div>)
