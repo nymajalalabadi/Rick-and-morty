@@ -8,10 +8,20 @@ import Navbar, { SearchResult } from "./components/Navbar";
 function App(){
   const [characters, setCharacters] = useState([]);
 
+  // useEffect(() => {
+  //   async function fetchData(){
+  //   fetch("https://rickandmortyapi.com/api/character").then((r) => r.json()).then((data) => setCharacters(data.results.slice(0, 6)))
+  //   }
+  //   fetchData()
+  // }, [])
+
   useEffect(() => {
-    fetch("https://rickandmortyapi.com/api/character")
-    .then((r) => r.json())
-    .then((data) => setCharacters(data.results.slice(0, 6)))
+    async function fetchData(){
+    const reslut = await fetch("https://rickandmortyapi.com/api/character");
+    const data = await reslut.json();
+    setCharacters(data.results.slice(0, 6));
+    }
+    fetchData()
   }, [])
 
   return (
