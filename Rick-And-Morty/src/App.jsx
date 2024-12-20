@@ -3,13 +3,15 @@ import { allCharacters } from "../data/data";
 import "./App.css";
 import CharacterDetail from "./components/CharacterDetail";
 import CharacterList from "./components/CharacterList";
-import Navbar, { SearchResult } from "./components/Navbar";
+import Navbar, { Search, SearchResult } from "./components/Navbar";
 import toast, { Toaster } from 'react-hot-toast';
 import axios from "axios";
 
-function App(){
+function App() {
   const [characters, setCharacters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
 
 
   // useEffect(() => {
@@ -33,12 +35,26 @@ function App(){
   // });
   // }, [])
 
+  // useEffect(() => {
+  // setIsLoading(true);
+  // axios.get("https://rickandmortyapi.com/api/character")
+  // .then(({data}) => {
+  // setCharacters(data.results.slice(0, 6)),
+  // setIsLoading(false)
+  // }).catch(error => {
+  //   setIsLoading(false)
+  //   toast.error(error.response.data.error)
+  // }).finally(() => {
+  //   setIsLoading(false)
+  // });
+  // }, [])
+
   useEffect(() => {
     async function fetchData()
     {
     try{
       setIsLoading(true);
-      const {data} = await axios.get("https://rickandmortyapi.com/api/character");
+      const {data} = await axios.get(`https://rickandmortyapi.com/api/character?name=${query}`);
       
       setCharacters(data.results.slice(0, 6));
       // setIsLoading(false)
@@ -46,24 +62,35 @@ function App(){
     {
       // setIsLoading(false)
       toast.error(error.response.data.error)
-    } finally{
+    } finally
+    {
       setIsLoading(false)
-    };
-    }
-    fetchData()
-  }, [])
+    }}
 
+    if(query.length < 3)
+    {
+      setCharacters([]);
+      return;
+    };
+
+    fetchData()
+  }, [query])
+
+  const handleSelectCharacter = (id) => {
+    setSelectedId(id);
+  }
+
+  
   return (
     <div className="App">
       <Toaster />
       <Navbar>
-      <div className="navbar__result">
+        <Search query={query} setQuery={setQuery} />
         <SearchResult numOfResult={characters.length} />
-      </div>
       </Navbar>
       <Main>
-      <CharacterList Characters={characters} isLoading={isLoading}/>
-      <CharacterDetail />
+      <CharacterList Characters={characters} isLoading={isLoading} onSelectCharacter={handleSelectCharacter}/>
+      <CharacterDetail selectedId={selectedId}/>
       </Main>
     </div>)
 }
