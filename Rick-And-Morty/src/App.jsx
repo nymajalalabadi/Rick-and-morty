@@ -70,9 +70,9 @@ function App() {
     fetchData()
   }, [query])
 
-  
+
   const handleSelectCharacter = (id) => {
-    setSelectedId(id);
+    setSelectedId(prevId => prevId === id ? null : id);
   }
 
   
