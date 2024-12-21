@@ -84,7 +84,7 @@ function App() {
         <SearchResult numOfResult={characters.length} />
       </Navbar>
       <Main>
-      <CharacterList Characters={characters} isLoading={isLoading} onSelectCharacter={handleSelectCharacter}/>
+      <CharacterList Characters={characters} isLoading={isLoading} onSelectCharacter={handleSelectCharacter} selectedId={selectedId}/>
       <CharacterDetail selectedId={selectedId}/>
       </Main>
     </div>)

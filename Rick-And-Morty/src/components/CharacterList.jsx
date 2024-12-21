@@ -1,7 +1,7 @@
 import Character from "./Character";
 import Loader from "./Loader.Jsx";
 
-function CharacterList({Characters, isLoading, onSelectCharacter}) {
+function CharacterList({Characters, isLoading, onSelectCharacter, selectedId}) {
   if (isLoading) 
   {
     return <Loader />
@@ -10,7 +10,7 @@ function CharacterList({Characters, isLoading, onSelectCharacter}) {
   return (
     <div className="Characters-list">
       {Characters.map((item) => (
-        <Character key={item.id} character={item} onSelectCharacter={onSelectCharacter} />
+        <Character key={item.id} character={item} onSelectCharacter={onSelectCharacter} selectedId={selectedId}/>
       ))}
     </div>
   )
