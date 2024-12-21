@@ -3,7 +3,7 @@ import { EyeIcon } from "@heroicons/react/24/outline"
 function Character({character, onSelectCharacter}){
     return (
         <div className="list__item">
-            <img src={character.image} alt={character.name} />
+            <img src={character.image} alt={character.name} onClick={() => onSelectCharacter(character.id)}/>
             <CharacterName name={character.name}  gender={character.gender}/>
             <CharacterInfo item={character}/>
             <button className="icon red" onClick={() => onSelectCharacter(character.id)}>

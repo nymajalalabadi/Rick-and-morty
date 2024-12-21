@@ -56,7 +56,7 @@ function App() {
       setIsLoading(true);
       const {data} = await axios.get(`https://rickandmortyapi.com/api/character?name=${query}`);
       
-      setCharacters(data.results.slice(0, 6));
+      setCharacters(data.results.slice(0, 8));
       // setIsLoading(false)
     } catch(error)
     {
@@ -67,15 +67,10 @@ function App() {
       setIsLoading(false)
     }}
 
-    if(query.length < 3)
-    {
-      setCharacters([]);
-      return;
-    };
-
     fetchData()
   }, [query])
 
+  
   const handleSelectCharacter = (id) => {
     setSelectedId(id);
   }

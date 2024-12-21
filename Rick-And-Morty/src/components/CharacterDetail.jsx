@@ -1,7 +1,27 @@
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from "@heroicons/react/24/outline"
-import { character, episodes } from "../../data/data"
+import { episodes } from "../../data/data"
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function CharacterDetail({selectedId}) {
+  const[character, setCharacter] = useState(null);
+
+  useEffect(() => {
+    async function fetchData(){
+     const {data} = await axios.get(`https://rickandmortyapi.com/api/character/${selectedId}`);
+     console.log(data);
+     setCharacter(data);
+    }
+    fetchData();
+  },[selectedId])
+
+  if (!character || !selectedId)
+    return (
+      <div style={{ flex: 1, color: "var(--slate-300)" }}>
+        Please select a character.
+      </div>
+    );
+
   return (
     <div style={{flex:1}}>
       <div className="character-detail">
