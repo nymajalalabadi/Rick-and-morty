@@ -1,6 +1,5 @@
 import toast, { Toaster } from 'react-hot-toast';
-import { ArrowDownCircleIcon, ArrowUpCircleIcon } from "@heroicons/react/24/outline"
-import { episodes } from "../../data/data"
+import { ArrowDownCircleIcon, ArrowUpCircleIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import Loader from "./Loader.Jsx";
 import axios from "axios";
@@ -8,13 +7,21 @@ import axios from "axios";
 function CharacterDetail({selectedId}) {
   const[character, setCharacter] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [episodes, setEpisodes] = useState([])
 
   useEffect(() => {
     async function fetchData(){
       try{
         setIsLoading(true);
+
         const {data} = await axios.get(`https://rickandmortyapi.com/api/character/${selectedId}`);
         setCharacter(data);
+
+        const episodesId = data.episode.map((expisode) => expisode.split("/").at(-1));
+ 
+        const {data : episodeData} = await axios.get(`https://rickandmortyapi.com/api/episode/${episodesId}`);
+        setEpisodes([episodeData].flat());
+
       }catch(error)
       {
         toast.error(error.response.data.error);
@@ -78,12 +85,13 @@ function CharacterDetail({selectedId}) {
           {
             episodes.map((episode, index) => {
               return (
-                <li key={episode.id}>
-                  <div>
-                    {String(index + 1).padStart(2, "0")}  {episode.episode} : <strong>{episode.name}</strong>
-                  </div>
-                  <div className="badge badge--secondary">{episode.air__date}</div>
-                </li>
+              <li key={episode.id}>
+                <div>
+                  {String(index + 1).padStart(2, "0")} - {episode.episode} :{" "}
+                  <strong>{episode.name}</strong>
+                </div>
+                <div className="badge badge--secondary">{episode.air_date}</div>
+              </li>
               )
             })
           }
