@@ -6,6 +6,7 @@ import CharacterList from "./components/CharacterList";
 import Navbar, { Favourites, Search, SearchResult } from "./components/Navbar";
 import toast, { Toaster } from 'react-hot-toast';
 import axios from "axios";
+import Modal from "./components/Modal";
 
 function App() {
   const [characters, setCharacters] = useState([]);
