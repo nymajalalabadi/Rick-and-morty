@@ -5,7 +5,7 @@ import Loader from "./Loader.Jsx";
 import axios from "axios";
 
 function CharacterDetail({selectedId, onAddFavorite, isAddedToFavourites}) {
-  const[character, setCharacter] = useState(null);
+  const [character, setCharacter] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [episodes, setEpisodes] = useState([])
 
@@ -53,7 +53,18 @@ function CharacterDetail({selectedId, onAddFavorite, isAddedToFavourites}) {
 
   return (
     <div style={{flex:1}}>
-      <div className="character-detail">
+      <CharacterSubInfo character={character} onAddFavorite={onAddFavorite} isAddedToFavourites={isAddedToFavourites}/>
+      <CharacterEpisodes episodes={episodes} />
+    </div>
+  )
+}
+
+export default CharacterDetail
+
+
+function CharacterSubInfo ({character, onAddFavorite, isAddedToFavourites}) {
+  return (
+    <div className="character-detail">
         <img src={character.image} alt={character.name} className="character-detail__img"/>
         <div className="character-detail__info">
           <h3 className="name">
@@ -74,31 +85,45 @@ function CharacterDetail({selectedId, onAddFavorite, isAddedToFavourites}) {
           </div>
         </div>
       </div>
-      <div className="character-episodes">
-        <div className="title">
-          <h2>List Of Episodes</h2>
-          <button>
-            <ArrowUpCircleIcon className="icon" />
-          </button>
-        </div>
-        <ul>
-          {
-            episodes.map((episode, index) => {
-              return (
-              <li key={episode.id}>
-                <div>
-                  {String(index + 1).padStart(2, "0")} - {episode.episode} :{" "}
-                  <strong>{episode.name}</strong>
-                </div>
-                <div className="badge badge--secondary">{episode.air_date}</div>
-              </li>
-              )
-            })
-          }
-        </ul>
-      </div>
-    </div>
   )
 }
 
-export default CharacterDetail
+function CharacterEpisodes ({episodes}) {
+ const [sortBy, setSortBy] = useState(true);
+
+ let sortedEpisodes;
+
+ if (sortBy)
+ {
+  sortedEpisodes = [...episodes].sort((a,b) => new Date(a.created) - new Date(b.created));
+ } else
+ {
+  sortedEpisodes = [...episodes].sort((a, b) => new Date(b.created) - new Date(a.created));
+ }
+
+  return (
+    <div className="character-episodes">
+    <div className="title">
+      <h2>List Of Episodes</h2>
+      <button onClick={() => setSortBy(is => !is)}>
+      <ArrowUpCircleIcon className="icon" style={{ rotate: sortBy ? "0deg" : "180deg" }} />
+      </button>
+    </div>
+    <ul>
+      {
+        sortedEpisodes.map((episode, index) => {
+          return (
+          <li key={episode.id}>
+            <div>
+              {String(index + 1).padStart(2, "0")} - {episode.episode} :{" "}
+              <strong>{episode.name}</strong>
+            </div>
+            <div className="badge badge--secondary">{episode.air_date}</div>
+          </li>
+          )
+        })
+      }
+    </ul>
+  </div>
+  )
+}
