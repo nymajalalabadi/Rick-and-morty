@@ -20,7 +20,7 @@ function CharacterDetail({selectedId, onAddFavorite, isAddedToFavourites}) {
         const episodesId = data.episode.map((expisode) => expisode.split("/").at(-1));
  
         const {data : episodeData} = await axios.get(`https://rickandmortyapi.com/api/episode/${episodesId}`);
-        setEpisodes([episodeData].flat());
+        setEpisodes([episodeData].flat().slice(0, 8));
 
       }catch(error)
       {

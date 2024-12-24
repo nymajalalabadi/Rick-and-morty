@@ -1,14 +1,14 @@
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline"
 
-function Character({character, onSelectCharacter, selectedId}){
+
+function Character({character, children}){
     return (
         <div className="list__item">
-            <img src={character.image} alt={character.name} onClick={() => onSelectCharacter(character.id)}/>
+            <img src={character.image} alt={character.name}/>
             <CharacterName name={character.name}  gender={character.gender}/>
             <CharacterInfo item={character}/>
-            <button className="icon red" onClick={() => onSelectCharacter(character.id)}>
-                {selectedId === character.id ? <EyeSlashIcon /> : <EyeIcon />}
-            </button>
+            {
+            children
+            }
         </div>
     )
 }

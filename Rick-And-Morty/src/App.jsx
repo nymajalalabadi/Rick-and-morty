@@ -92,6 +92,10 @@ function App() {
     setSelectedId(prevId => prevId === id ? null : id);
   }
 
+  const handleRemoveFavorite = (id) => {
+    setFavorites(prevFavs => prevFavs.filter((fav) => fav.id !== id));
+  }
+
   const handleAddFavorite = (character) => {
     setFavorites(prevFavs => [...prevFavs, character]);
   }
@@ -105,7 +109,7 @@ function App() {
       <Navbar>
         <Search query={query} setQuery={setQuery} />
         <SearchResult numOfResult={characters.length} />
-        <Favourites numOffavourites={favourites.length} />
+        <Favourites favourites={favourites} onRemoveFavorite={handleRemoveFavorite}/>
       </Navbar>
       <Main>
       <CharacterList Characters={characters} isLoading={isLoading} onSelectCharacter={handleSelectCharacter} selectedId={selectedId}/>
