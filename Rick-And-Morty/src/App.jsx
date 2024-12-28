@@ -7,15 +7,14 @@ import Navbar, { Favourites, Search, SearchResult } from "./components/Navbar";
 import toast, { Toaster } from 'react-hot-toast';
 import axios from "axios";
 import Modal from "./components/Modal";
-import useCharacter from "./hooks/UseCharacter";
+import useCharacter from "./hooks/useCharacter";
+import useLocalStroge from "./hooks/useLocalStroge";
 
 function App() {
   const [query, setQuery] = useState("");
   const {isLoading, characters} = useCharacter(query);
   const [selectedId, setSelectedId] = useState(null);
-  const [favourites, setFavorites] = useState(() => JSON.parse(localStorage.getItem("FAVORITES")) || []);
   const [count, setCount] = useState(0)
-
 
   // useEffect(() => {
   // setIsLoading(true);
@@ -52,9 +51,7 @@ function App() {
   // });
   // }, [])
 
-  useEffect(() => {
-    localStorage.setItem("FAVORITES", JSON.stringify(favourites));
-  }, [favourites])
+  const [favourites, setFavorites] = useLocalStroge();
 
   const handleSelectCharacter = (id) => {
     setSelectedId(prevId => prevId === id ? null : id);
