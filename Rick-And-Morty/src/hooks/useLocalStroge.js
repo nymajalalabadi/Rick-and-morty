@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-export default function useLocalStroge() {
-    const [favourites, setFavorites] = useState(() => JSON.parse(localStorage.getItem("FAVORITES")) || []);
+export default function useLocalStroge(key, initialState) {
+    const [value, setValue] = useState(() => JSON.parse(localStorage.getItem(key)) || initialState);
 
     useEffect(() => {
-        localStorage.setItem("FAVORITES", JSON.stringify(favourites));
-    }, [favourites])
+        localStorage.setItem(key, JSON.stringify(value));
+    }, [value]);
 
-    return [favourites, setFavorites];
+    return [value, setValue];
 }

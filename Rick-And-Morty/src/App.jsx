@@ -51,7 +51,7 @@ function App() {
   // });
   // }, [])
 
-  const [favourites, setFavorites] = useLocalStroge();
+  const [favourites, setFavorites] = useLocalStroge("FAVOURITES", []);
 
   const handleSelectCharacter = (id) => {
     setSelectedId(prevId => prevId === id ? null : id);
